@@ -1,0 +1,36 @@
+1-4 Lithium Batery Indicator Universal Power Display Board
+
+http://www.tooljob.club/kzj02de/measuring-layout-tools/battery-testers__1-4-lithium-batery-indicator-universal-power-display-board/a-B00GGAM3WQ
+Blue trim pot(?) on Voltage board
+NEW 3266W-1-104LF IC Chipset 3266 CW2 QFP Chip Integrated Circuit Component
+Bourns 3266W-1-104LF
+Enlarge
+Mouser Part No:
+652-3266W-1-104LF
+Manufacturer Part No:
+3266W-1-104LF
+Manufacturer:
+Bourns
+Description:
+Trimmer Resistors - Through Hole 1/4" 100Kohms 10% SQ W/Standoff Sealed
+Learn more about Bourns 3266W-1-104LF
+3266W-1-104LF Datasheet 3266W-1-104LF Datasheet
+This shorts out whatever it is attached to - not much use!
+
+
+http://hobbycomponents.com/sensors/217-5a-range-acs712t-elc-05b-current-sensor-module
+
+5A RANGE ACS712T ELC-05B CURRENT SENSOR MODULE
+Model  HCSENS0004
+Condition  New
+acs712 current sensor arduino
+On-board ACS712T ELC-05B current sensor; 
+Working voltage: DC 5V; 
+Power LED indicator; 
+Measures positive and negative 5A current; 
+Corresponding to the analogue output 185mV / A; 
+Output voltage is VCC/2 when no current is measured
+
+http://www.kraj.in/arduino/arduino-acs712-dc-current-measurement/
+
+

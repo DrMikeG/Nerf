@@ -1,5 +1,47 @@
 PWM Controller
 
+What I have is a cheap clone on the Adafruit 16-Channel 12-bit PWM/Servo Driver - I2C interface - PCA9685
+
+I feel a bit bad for not supporting Adafruit, but I actually couldn't get an offical one here in the UK.
+
+If you are chaining multiple driver boards, you will want headers on both ends.
+
+https://learn.adafruit.com/16-channel-pwm-servo-driver/hooking-it-up
+
+Classic" Arduino wiring:
++5v -> VCC (this is power for the BREAKOUT only, NOT the servo power!)
+GND -> GND
+Analog 4 -> SDA 
+Analog 5 -> SCL
+
+The VCC pin is just power for the chip itself. If you want to connect servos or LEDs that use the V+ pins, you MUST connect the V+ pin as well. The V+ pin can be as high as 6V even if VCC is 3.3V (the chip is 5V safe). We suggest connecting power through the blue terminal block since it is polarity protected.
+
+Connecting a Servo
+Most servos come with a standard 3-pin female connector that will plug directly into the headers on the Servo Driver.  Be sure to align the plug with the ground wire (usually black or brown) with the bottom row and the signal wire (usually yellow or white) on the top.
+
+Power for the Servos
+Most servos are designed to run on about 5 or 6v.  Keep in mind that a lot of servos moving at the same time (particularly large powerful ones) will need a lot of current.  Even micro servos will draw several hundred mA when moving.  Some High-torque servos will draw more than 1A each under load.
+
+Good power choices are:
+5v 2A switching power supply 
+5v 10A switching power supply 
+4xAA Battery Holder - 6v with Alkaline cells.  4.8v with NiMH rechargeable cells.
+4.8 or 6v Rechargeable RC battery packs from a hobby store.
+
+(2pcs) TowerPro MG995 Metal Gear Torque Digi High Speed Servo
+
+-Dimensions: 1.57" x 0.79" x 1.44" (40 x 20 x 36.5mm) 
+-Weight: 1.78oz / 48g (Servo Net Weight Only) Operating Speed (4.8V no load) : 0.17sec / 60 degrees 
+-Operating Speed (6.0V no load) : 0.13sec / 60 degrees
+-Stall Torque (4.8V): (13kg/cm) (180oz/in.)
+-Stall Torque (6.0V): (15kg/cm) (208oz/in.)
+-Temperature Range: -30 to +60 Degree C
+-Dead Band Width: 4usec
+-Operation Voltage: 3.5 - 8.4Volts
+
+
+https://learn.adafruit.com/16-channel-pwm-servo-driver
+
 https://www.adafruit.com/product/815
 
 https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
