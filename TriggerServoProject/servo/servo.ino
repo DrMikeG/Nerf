@@ -1,21 +1,3 @@
-/*************************************************** 
-  This is an example for our Adafruit 16-channel PWM & Servo driver
-  Servo test - this will drive 16 servos, one after the other
-
-  Pick one up today in the adafruit shop!
-  ------> http://www.adafruit.com/products/815
-
-  These displays use I2C to communicate, 2 pins are required to  
-  interface. For Arduino UNOs, thats SCL -> Analog 5, SDA -> Analog 4
-
-  Adafruit invests time and resources providing this open source code, 
-  please support Adafruit and open-source hardware by purchasing 
-  products from Adafruit!
-
-  Written by Limor Fried/Ladyada for Adafruit Industries.  
-  BSD license, all text above must be included in any redistribution
- ****************************************************/
-
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 // Scanner detected 40 and 70
@@ -34,11 +16,14 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 
 // our servo # counter
 uint8_t servonum = 0;
+int pinOut = 8;
 
 void setup() {
   Serial.begin(9600);
   Serial.println("16 channel Servo test!");
 
+  pinMode(pinOut, OUTPUT); 
+  digitalWrite(pinOut, LOW);
   pwm.begin();
   
   pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
@@ -70,33 +55,41 @@ void setServoAngle(double angle)
   delay(15);
 }
 
+void powerUpMotors()
+{
+  Serial.println("Motors ON!");
+  pwm.setPWM(15, 0, 4095);
+  digitalWrite(pinOut, HIGH);
+  delay(2000);
+
+}
+
+void powerDownMotors()
+{
+  Serial.println("Motors OFF!");
+  digitalWrite(pinOut, LOW);
+  pwm.setPWM(15, 0, 0);
+}
+
+
 void loop() {
   // Drive each servo one at a time
-//  Serial.println(servonum);
-  //for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen+=50) {
-    //pwm.setPWM(servonum, 0, pulselen);
-    //Serial.println(pulselen);
-  //}
+ 
+  powerUpMotors();
 
-  // Single shot
+  
+  Serial.println("Fire!");  
   setServoAngle(180);
-
-  //for (int angle = 0; angle < 180; angle+=60)
-  //{
-   // setServoAngle(angle);
-  //}
+  
   delay(500);
+  powerDownMotors();
+  
+  Serial.println("Reset!");  
   for (int angle = 180; angle > 0; angle--)
   {
     setServoAngle(angle);
   }
-  //for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--) {
-   // pwm.setPWM(servonum, 0, pulselen);
-    //    //Serial.println(pulselen);
- // }
-
   delay(500);
   servonum = 0;
-  //servonum ++;
-  //if (servonum > 7) servonum = 0;
+  
 }
