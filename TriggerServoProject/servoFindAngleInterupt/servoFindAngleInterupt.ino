@@ -1,3 +1,5 @@
+// This was just some test code to see if I could use the interupt without messing with the servo timings.
+
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 // Scanner detected 40 and 70
@@ -96,7 +98,7 @@ void powerDownMotors()
 void loop() {
   // Drive each servo one at a time
  
-  Serial.println(isrCount);
+ Serial.println(isrCount);
  powerUpMotors();
  setServoAngle(homeA);  // Home
  Serial.println(homeA);

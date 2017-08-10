@@ -1,3 +1,6 @@
+// This is attempting to print out the current being drawn - whilst the servo and motors are running.
+// It's not quite working yet - it is constantly reading values in the 7000's.
+
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 // Scanner detected 40 and 70
@@ -21,34 +24,54 @@ int pinOut = 8;
 int homeA = 65;
 int fwdA = 0;
 
-volatile long isrCount;
+int phase;
+unsigned long cycleStartTime;
 
+volatile long isrCount;
+volatile double average = 0.0;
 
 void setup() {
   Serial.begin(9600);
+  pinMode(13, OUTPUT);     
+  for (int i=0; i < 10; i++)
+  {
+    digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay((11-i)*100);               // wait for a second
+    digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
+    delay((11-i)*100);               // wait for a second
+  }
+  
+  
   Serial.println("16 channel Servo test!");
-
   pinMode(pinOut, OUTPUT); 
   digitalWrite(pinOut, LOW);
   pwm.begin();
   
   pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
-
+  
+  phase = 0;
+  cycleStartTime = 0;
+  
   yield();
-
+  
+  average = 0.0;
   isrCount = 0;
   OCR0A = 0xAF;
   TIMSK0 |= _BV(OCIE0A);
 
 }
 
- 
-
 // Interrupt is called once a millisecond, looks for any new GPS data, and stores it
 SIGNAL(TIMER0_COMPA_vect) 
 {
   isrCount++;
+  int sensorValue = analogRead(A7);
+  float voltage = sensorValue * (5.0 / 1023.0);  
+  average += voltage;
+
+  printAvgVoltage();
 } 
+
 
 // you can use this function if you'd like to set the pulse length in seconds
 // e.g. setServoPulse(0, 0.001) is a ~1 millisecond pulse width. its not precise!
@@ -90,22 +113,69 @@ void powerDownMotors()
   pwm.setPWM(15, 0, 0);
 }
 
+double getMillamps(double sensorVoltage)
+{
+   double range =5.0;// amps
+   double voltageSwing = 1.5;// volts
+   double midVoltage = 2.5;
+   return ((midVoltage - sensorVoltage)/voltageSwing) * range * 1000.0;
+}
 
 
+void printAvgVoltage()
+{
+  if (isrCount > 100)
+  {
+    // print out the value you read:
+    double localAverage = average/(1.0*isrCount);
+    double mA = getMillamps(localAverage);
+    if (mA > 50.0)
+    {
+      Serial.print( mA  );
+      Serial.print( ","  );
+    }
+    average = 0.0;
+    isrCount = 0;
+  }
+}
+  
   
 void loop() {
   // Drive each servo one at a time
  
-  Serial.println(isrCount);
- powerUpMotors();
- setServoAngle(homeA);  // Home
- Serial.println(homeA);
- delay(5000);
- setServoAngle(fwdA);  // Fire
- Serial.println(fwdA);
- delay(800);
- setServoAngle(homeA);  // Home
- powerDownMotors();
+ if (phase == 0)
+ {
+   powerUpMotors();
+   cycleStartTime = millis();
+   Serial.println("Moving...");
+   setServoAngle(homeA);  // Home
+   Serial.println(homeA);
+   phase = 1;
+ }
+
+ unsigned long time = millis() - cycleStartTime; // Time elapsed since start of cycle...
+ 
+ if (time > 6000 && phase == 1) // first delay...
+ {
+   Serial.println("Moving...");
+   setServoAngle(fwdA);  // Fire
+   Serial.println("Moving...");
+   Serial.println(fwdA);
+   delay(800);
+   phase = 2;
+ }
+ else if (time > 6000+800 && phase == 2)
+ {
+   Serial.println("Moving...");
+   setServoAngle(homeA);  // Home   
+   Serial.println(homeA);
+   powerDownMotors();
+   phase = 0;
+ }
+
+
+//  printAvgVoltage();
+  //collectAndPrintVoltage();
   
   
 }
