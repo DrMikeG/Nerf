@@ -1,0 +1,22 @@
+NPN transistors whenever we need to control medium-power electronics such as small motors, solenoids, or IR LEDs. We find them so handy, they come in a pack of 10
+
+EBC pinout
+
+https://www.adafruit.com/product/756
+
+
+
+Built a two transistor switch.
+
+There is a pnp transistor with a resister across the switch.
+
+I provide +6V to either side of the switch.
+
+The PNP base lead is white.
+I connect this to the Collector of the NPN transistor (right leg, viewing flat side)
+I connect the emitter to the negative of the 6V supply
+I also make a common ground with the arduino to the 6V ground.
+
+The base of the PNP transistor is connected to arduino +5V via a parallel pair of 10K resistors.
+
+You do have to power the 6V board!
