@@ -1,0 +1,33 @@
+hall effect Hall Effect KY-003 pinout
+
+http://arduinomodules.info/ky-003-hall-magnetic-sensor-module/
+
+
+KY-003	Arduino
+S	Pin 3
+middle	+5V
+-	GND
+
+
+int led = 13;//LED pin
+int sensor = 3; //sensor pin
+int val; //numeric variable
+
+void setup()
+{
+	pinMode(led, OUTPUT); //set LED pin as output
+	pinMode(sensor, INPUT); //set sensor pin as input
+}
+
+void loop()
+{
+	val = digitalRead(sensor); //Read the sensor
+	if(val == HIGH) //when magnetic field is detected, turn led on
+	{
+		digitalWrite(Led, HIGH);
+	}
+	else
+	{
+		digitalWrite(Led, LOW);
+	}
+}
