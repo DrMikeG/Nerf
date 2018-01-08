@@ -3,8 +3,6 @@
 // Scanner detected 40 and 70
 // called this way, it uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
-// you can also call it with a different address you want
-//Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 
 // Depending on your servo make, the pulse width min and max may vary, you 
 // want these to be as small/large as possible without hitting the hard stop
@@ -70,6 +68,7 @@ void setServoAngle(double angle)
 {
    // angle is from 0 to 180
   double pulse =  map(angle,0.0,180.0,SERVOMIN,SERVOMAX);
+  Serial.println(pulse);
   pwm.setPWM(0, 0, pulse);
   delay(15);
 }
@@ -90,13 +89,38 @@ void powerDownMotors()
   pwm.setPWM(15, 0, 0);
 }
 
-
+void CountDown25()
+{
+  for (int i=8; i > 0; i--){
+    Serial.println(i);
+    delay(1000);    
+  }
+}
 
   
 void loop() {
-  // Drive each servo one at a time
  
-  Serial.println(isrCount);
+ // What is connected to what?
+// Adafruit_PWMServoDriver - uses A4/A5/GND/5V
+
+// I think it's expecting a servo on pin 15 of the servo board.
+// Can we reach angle 0 - SERVOMIN = 120
+
+
+//setServoAngle(65); // This is a good home value 258
+pwm.setPWM(0, 0, 258);
+CountDown25();
+Serial.println("Fire!");
+//pwm.setPWM(0, 0, 125); // This seems to be about the minimum where the dart gets cleanly picked up
+delay(500);
+
+
+
+// setServoAngle(0); - No! Too far!
+
+/* 
+  // Drive each servo one at a time
+ Serial.println(isrCount);
  powerUpMotors();
  setServoAngle(homeA);  // Home
  Serial.println(homeA);
@@ -106,6 +130,6 @@ void loop() {
  delay(800);
  setServoAngle(homeA);  // Home
  powerDownMotors();
-  
+ */
   
 }

@@ -1,0 +1,27 @@
+Belatedly starting a working log.
+
+08/01/2018
+Wired up the power switching for the gun motors onto the same perf board as the 12V - 6V convertor.
+
+There are two red input leads requiring 12Volts, which get their power from to sockets on the small 5V convertor board.
+
+There are two long socketed fly leads (white and black) coming of the board.
+There is a short green pin lead (test +6V)
+If you connect the White lead to the green lead, and all is well, the motor should power up. The black need is not required, as there is no need for a common earth in the test setup.
+
+You can also connect the white and black leads to a PWM pin on the servo board, and power up the motors that way.
+
+Using the servo test sketch, the PVM pulse widths for 'home' and 'fire' are:
+
+//setServoAngle(65); // This is a good home value 258
+pwm.setPWM(0, 0, 258);
+
+Serial.println("Fire!");
+pwm.setPWM(0, 0, 125); // This seems to be about the minimum where the dart gets cleanly picked up
+
+The cyclic rate for the flywheel spin up is ~5 seconds, which is a bit disappointing.
+
+Whilst looking a mod-kits, I discovered that Nerf make the Rapid Strike 
+which is fully-automatic 18-shot rifle.
+
+This makes me think I should be using that as a platform!
